@@ -4,10 +4,10 @@ from tkinter import colorchooser
 from tkinter import ttk
 import os
 from PIL import ImageTk, Image
-from complement_color import complement # complement(r, g, b)
+from complement_color import complement_rgb, complement_ryb
 from rgb2hex import rgb_to_hex
 from rgb2ryb import rgb2ryb, ryb2rgb
-from rgb2cmyk import rgb2cmyk
+from rgb2cmyk import rgb2cmyk, cmyk2rgb
 from rgb2hls import rgb2hls, hls2rgb
 from ColorsName import ColorsName
 from classic_thiada_color import clas_thiad_rgb, clas_thiad_ryb
@@ -173,16 +173,12 @@ def opposite():
         blue = selected_color[0][2]
         # print('Выбранный цвет', selected_color)
         """Ниже вывод RGB"""
-        opposite_color_RGB = complement(red, green, blue)
+        opposite_color_RGB = complement_rgb(red, green, blue)
         # rgb_hex = rgb_to_hex(int(opposite_color_RGB[0]), int(opposite_color_RGB[1]), int(opposite_color_RGB[2]))
         # print('Комплементарный цвет для, RGB:', opposite_color_RGB, rgb_hex)
         """Ниже перевод и вывод RYB"""
         color_RYB = rgb2ryb(selected_color[0])
-        opposite_color_RYB = (255 - color_RYB[0], 255 - color_RYB[1], 255 - color_RYB[2])
-        opposite_color_RYB = ryb2rgb(opposite_color_RYB) # Перевод RYB в RGB
-        opposite_color_RYB = rgb2hls(opposite_color_RYB)
-        if opposite_color_RYB[1] > 0.5: opposite_color_RYB[1] -= 0.5
-        opposite_color_RYB = hls2rgb(opposite_color_RYB)
+        opposite_color_RYB = complement_ryb(color_RYB[0], color_RYB[1], color_RYB[2])
         # ryb_hex = rgb_to_hex(int(opposite_color_RYB[0]), int(opposite_color_RYB[1]), int(opposite_color_RYB[2]))
         # print('Комплементарный цвет для, RYB:', opposite_color_RYB, ryb_hex)
 
@@ -386,17 +382,20 @@ def window_wheel():
     width_win='600'
     windowwel = tk.Toplevel()
     windowwel.title('Color\'s wheels help')
-    windowwel.geometry(width_win+'x700')
-    windowwel.resizable(width=False, height=True)
+    windowwel.geometry(width_win+'x900')
+    windowwel.resizable(width=False, height=False)
 
-    scrollinwin = tk.Scrollbar(windowwel).pack(side="right", fill="y")
-    with open(text_dir+'RGB_note.notex', 'r', encoding="utf-8") as f:
-        text_rgb = f.read()
+
+    # scrollinwin = tk.Scrollbar(windowwel).pack(side="right", fill="y")
+    with open(text_dir+'RGB_note.notex', 'r', encoding="utf-8") as f_rgb:
+        text_rgb = f_rgb.read()
     l_title_rgb = tk.Label(windowwel, text='RGB и CMYK', justify='center', font="14").pack()
     l_text_rgb = tk.Label(windowwel, text=text_rgb, justify='left', wraplength=int(width_win)-20).pack()
     load_image_rgb = ImageTk.PhotoImage(Image.open(image_dir+"rgb_wheel.jpeg").resize( (180, 180) ))
     l_image_rgb = tk.Label(windowwel, image=load_image_rgb).pack()
 
+    with open(text_dir+'RYB_note.notex', 'r', encoding="utf-8") as f_ryb:
+        text_rgb = f_ryb.read()
     l_title_ryb = tk.Label(windowwel, text='RYB', justify='center', font="14").pack()
     l_text_ryb = tk.Label(windowwel, text=text_rgb, justify='left', wraplength=int(width_win)-20).pack()
     load_image_ryb = ImageTk.PhotoImage(Image.open(image_dir+"ryb_wheel.jpeg").resize( (180, 180) ))
@@ -407,11 +406,43 @@ def window_wheel():
 rgb_ryb_wheel = tk.Button(frame_methods, text='Что такое RGB/RYB?', command=window_wheel).place(x=730, y=140)
 
 
+def get_color_CMYK():
+    # print(cmyk_Cyan.get(), cmyk_Magenta.get(), cmyk_Yellow.get(), cmyk_Key.get(), cmyk_methods.get())
+    rgb_sel = cmyk2rgb(int(cmyk_Cyan.get()), int(cmyk_Magenta.get()), int(cmyk_Yellow.get()), int(cmyk_Key.get()))
 
-cmyk_entry1 = tk.Entry(frame_methods, width=5).place(x=0, y=200)
-cmyk_entry2 = tk.Entry(frame_methods, width=5).place(x=40, y=200)
-cmyk_entry3 = tk.Entry(frame_methods, width=5).place(x=80, y=200)
-cmyk_entry4 = tk.Entry(frame_methods, width=5).place(x=120, y=200)
-cmyk_but = tk.Button(frame_methods, text="CMYK").place(x=160, y=195)
+    if cmyk_methods.get() == 'Комплимертарный':
+        opposite_color_RGB = complement_rgb(rgb_sel[0], rgb_sel[1], rgb_sel[2])
+        color_RYB = rgb2ryb(rgb_sel)
+        opposite_color_RYB = complement_ryb(color_RYB[0], color_RYB[1], color_RYB[2])
+        # print(rgb_sel, opposite_color_RGB, opposite_color_RYB)
+        rgb_sel = (rgb_sel, rgb_to_hex(int(rgb_sel[0]), int(rgb_sel[1]), int(rgb_sel[2])))
+        ReturningColorRGB(rgb_sel, opposite_color_RGB, opposite_color_RYB)
+    elif cmyk_methods.get() == 'Классическая триада':
+        pass
+    elif cmyk_methods.get() == 'Аналоговая триада':
+        pass
+    elif cmyk_methods.get() == 'Контрастная триада':
+        pass
+    elif cmyk_methods.get() == 'Квадрат':
+        pass
+    else:
+        pass
+
+cmyk_Cyan = tk.Entry(frame_methods, width=5)
+cmyk_Magenta = tk.Entry(frame_methods, width=5)
+cmyk_Yellow = tk.Entry(frame_methods, width=5)
+cmyk_Key = tk.Entry(frame_methods, width=5)
+cmyk_methods = ttk.Combobox(frame_methods, values=("Комплимертарный",
+                                                   "Классическая триада",
+                                                   "Аналоговая триада",
+                                                   "Контрастная триада",
+                                                   "Квадрат"))
+ttk.Button(frame_methods, text="CMYK", command=get_color_CMYK).place(x=320, y=195)
+
+cmyk_Cyan.place(x=0, y=200)
+cmyk_Magenta.place(x=40, y=200)
+cmyk_Yellow.place(x=80, y=200)
+cmyk_Key.place(x=120, y=200)
+cmyk_methods.place(x=160, y=200)
 
 window.mainloop()

@@ -1,6 +1,6 @@
 from rgb2hls import rgb2hls, hls2rgb
 from rgb2ryb import rgb2ryb, ryb2rgb
-from complement_color import complement
+from complement_color import complement_rgb
 
 def squer_rgb(r, g, b):
     col = (r, g, b)

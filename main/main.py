@@ -11,9 +11,9 @@ from rgb2cmyk import rgb2cmyk, cmyk2rgb
 from rgb2hls import rgb2hls, hls2rgb
 from ColorsName import ColorsName
 from classic_thiada_color import clas_thiad_rgb, clas_thiad_ryb
-from analog_thiada_color import analog_thiad_rgb
-from contrast_thiada_color import contr_thiad_rgb
-from squer_color import squer_rgb
+from analog_thiada_color import analog_thiad_rgb, analog_thiad_ryb
+from contrast_thiada_color import contr_thiad_rgb, contr_thiad_ryb
+from squer_color import squer_rgb, squer_ryb
 
 
 
@@ -227,11 +227,12 @@ def AnalogThiada():
         my_colors_RGB = analog_thiad_rgb(red, green, blue)
         rgb_hex1 = rgb_to_hex(int(my_colors_RGB[0][0]), int(my_colors_RGB[0][1]), int(my_colors_RGB[0][2]))
         rgb_hex2 = rgb_to_hex(int(my_colors_RGB[1][0]), int(my_colors_RGB[1][1]), int(my_colors_RGB[1][2]))
+        my_colors_RYB = analog_thiad_ryb(red, green, blue)
         # print('Аналог.триада цвета для, RGB:', my_colors_RGB[0], rgb_hex1)
         # print('Аналог.триада цвета для, RGB:', my_colors_RGB[1], rgb_hex2)
         '''Добавить RYB'''
 
-        ReturningColorRGB(selected_color, my_colors_RGB[0], (0, 0, 0), my_colors_RGB[1], (0, 0, 0))
+        ReturningColorRGB(selected_color, my_colors_RGB[0], my_colors_RYB[0], my_colors_RGB[1], my_colors_RYB[1])
 
 def ContrasThiada():
     selected_color = colorchooser.askcolor(title ="Палитра цветов")
@@ -248,11 +249,12 @@ def ContrasThiada():
         my_colors_RGB = contr_thiad_rgb(red, green, blue)
         rgb_hex1 = rgb_to_hex(int(my_colors_RGB[0][0]), int(my_colors_RGB[0][1]), int(my_colors_RGB[0][2]))
         rgb_hex2 = rgb_to_hex(int(my_colors_RGB[1][0]), int(my_colors_RGB[1][1]), int(my_colors_RGB[1][2]))
+        my_colors_RYB = contr_thiad_ryb(red, green, blue)
         # print('Аналог.триада цвета для, RGB:', my_colors_RGB[0], rgb_hex1)
         # print('Аналог.триада цвета для, RGB:', my_colors_RGB[1], rgb_hex2)
         '''Добавить RYB'''
 
-        ReturningColorRGB(selected_color, my_colors_RGB[0], (0, 0, 0), my_colors_RGB[1], (0, 0, 0))
+        ReturningColorRGB(selected_color, my_colors_RGB[0], my_colors_RYB[0], my_colors_RGB[1], my_colors_RYB[1])
 
 def Rectangle():
     selected_color1 = colorchooser.askcolor(title ="Палитра цветов")
@@ -296,11 +298,12 @@ def Sque():
         red = selected_color[0][0]
         green = selected_color[0][1]
         blue = selected_color[0][2]
-        print('Выбранный цвет', selected_color)
+        #print('Выбранный цвет', selected_color)
 
         my_colors_RGB = squer_rgb(red, green, blue)
+        my_colors_RYB = squer_ryb(red, green, blue)
 
-        ReturningColorRGB4sque(selected_color, my_colors_RGB[0], my_colors_RGB[1], my_colors_RGB[2], (0, 0, 0), (0, 0, 0), (0, 0, 0))
+        ReturningColorRGB4sque(selected_color, my_colors_RGB[0], my_colors_RGB[1], my_colors_RGB[2], my_colors_RYB[0], my_colors_RYB[1], my_colors_RYB[2])
 
 """ГЛАВНОЕ ОКНО"""
 
@@ -423,12 +426,15 @@ def get_color_CMYK():
         color_RYB = rgb2ryb(rgb_sel)
         my_colors_RYB = clas_thiad_ryb(color_RYB[0], color_RYB[1], color_RYB[2])
         t_rgb_ryb1, t_rgb_ryb2 = ryb2rgb(my_colors_RYB[0]), ryb2rgb(my_colors_RYB[1])
-
         rgb_sel = (rgb_sel, rgb_to_hex(int(rgb_sel[0]), int(rgb_sel[1]), int(rgb_sel[2])))
         ReturningColorRGB(rgb_sel, my_colors_RGB[0], t_rgb_ryb1, my_colors_RGB[1], t_rgb_ryb2)
 
     elif cmyk_methods.get() == 'Аналоговая триада':
-        pass
+        my_colors_RGB = analog_thiad_rgb(rgb_sel[0], rgb_sel[1], rgb_sel[2])
+        my_colors_RYB = analog_thiad_ryb(rgb_sel[0], rgb_sel[1], rgb_sel[2])
+        rgb_sel = (rgb_sel, rgb_to_hex(int(rgb_sel[0]), int(rgb_sel[1]), int(rgb_sel[2])))
+        ReturningColorRGB(rgb_sel, my_colors_RGB[0], my_colors_RYB[0], my_colors_RGB[1], my_colors_RYB[1])
+
     elif cmyk_methods.get() == 'Контрастная триада':
         pass
     elif cmyk_methods.get() == 'Квадрат':

@@ -10,8 +10,10 @@ Program developer: Churilo Maxim
 p.s. In future versions an .exe file will be added for easier launch.
 
 # What's not implemented?
-1. method's square, contrasting thriada and analoging thriada for color whell "RYB" doesn't work.
-2. Enter CMYK.
+1. method's square for color whell "RYB" doesn't work well, will be fixed in the future updates.
+2. Enter CMYK for ALL methods.
+3. Beautiful design😍✨
+4. intermediate colors.
 
 
 If you have any questions, you can always write to me https://t.me/cdccdd

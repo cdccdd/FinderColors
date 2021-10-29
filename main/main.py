@@ -268,8 +268,8 @@ def Rectangle():
         print('Выбранный цвет', selected_color1)
         print('Выбранный цвет', selected_color2)
 
-        opposite_color_RGB1 = complement(red1, green1, blue1)
-        opposite_color_RGB2 = complement(red2, green2, blue2)
+        opposite_color_RGB1 = complement_rgb(red1, green1, blue1)
+        opposite_color_RGB2 = complement_rgb(red2, green2, blue2)
 
         color_RYB1 = rgb2ryb(selected_color1[0])
         opposite_color_RYB1 = (255 - color_RYB1[0], 255 - color_RYB1[1], 255 - color_RYB1[2])
@@ -417,8 +417,16 @@ def get_color_CMYK():
         # print(rgb_sel, opposite_color_RGB, opposite_color_RYB)
         rgb_sel = (rgb_sel, rgb_to_hex(int(rgb_sel[0]), int(rgb_sel[1]), int(rgb_sel[2])))
         ReturningColorRGB(rgb_sel, opposite_color_RGB, opposite_color_RYB)
+
     elif cmyk_methods.get() == 'Классическая триада':
-        pass
+        my_colors_RGB = clas_thiad_rgb(rgb_sel[0], rgb_sel[1], rgb_sel[2])
+        color_RYB = rgb2ryb(rgb_sel)
+        my_colors_RYB = clas_thiad_ryb(color_RYB[0], color_RYB[1], color_RYB[2])
+        t_rgb_ryb1, t_rgb_ryb2 = ryb2rgb(my_colors_RYB[0]), ryb2rgb(my_colors_RYB[1])
+
+        rgb_sel = (rgb_sel, rgb_to_hex(int(rgb_sel[0]), int(rgb_sel[1]), int(rgb_sel[2])))
+        ReturningColorRGB(rgb_sel, my_colors_RGB[0], t_rgb_ryb1, my_colors_RGB[1], t_rgb_ryb2)
+
     elif cmyk_methods.get() == 'Аналоговая триада':
         pass
     elif cmyk_methods.get() == 'Контрастная триада':

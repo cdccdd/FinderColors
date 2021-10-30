@@ -291,7 +291,7 @@ def Rectangle():
 def Sque():
     selected_color = colorchooser.askcolor(title ="Палитра цветов")
     if selected_color[0] == None:
-        l_clear_bg = tk.Frame(frame_result, width=1000, height=335, bg='#f0f0f0')
+        l_clear_bg = tk.Frame(frame_result, width=1150, height=335, bg='#f0f0f0')
         l_clear_bg.place(x=0, y=0)
         print('Цвет не выбран')
     else:
@@ -436,9 +436,17 @@ def get_color_CMYK():
         ReturningColorRGB(rgb_sel, my_colors_RGB[0], my_colors_RYB[0], my_colors_RGB[1], my_colors_RYB[1])
 
     elif cmyk_methods.get() == 'Контрастная триада':
-        pass
+        my_colors_RGB = contr_thiad_rgb(rgb_sel[0], rgb_sel[1], rgb_sel[2])
+        my_colors_RYB = contr_thiad_ryb(rgb_sel[0], rgb_sel[1], rgb_sel[2])
+        rgb_sel = (rgb_sel, rgb_to_hex(int(rgb_sel[0]), int(rgb_sel[1]), int(rgb_sel[2])))
+        ReturningColorRGB(rgb_sel, my_colors_RGB[0], my_colors_RYB[0], my_colors_RGB[1], my_colors_RYB[1])
+
     elif cmyk_methods.get() == 'Квадрат':
-        pass
+        my_colors_RGB = squer_rgb(rgb_sel[0], rgb_sel[1], rgb_sel[2])
+        my_colors_RYB = squer_ryb(rgb_sel[0], rgb_sel[1], rgb_sel[2])
+        rgb_sel = (rgb_sel, rgb_to_hex(int(rgb_sel[0]), int(rgb_sel[1]), int(rgb_sel[2])))
+        ReturningColorRGB4sque(rgb_sel, my_colors_RGB[0], my_colors_RGB[1], my_colors_RGB[2], my_colors_RYB[0], my_colors_RYB[1], my_colors_RYB[2])
+
     else:
         pass
 

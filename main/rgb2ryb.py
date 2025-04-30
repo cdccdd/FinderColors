@@ -17,7 +17,7 @@ def rgb2ryb(x):
     red -= yellow
     green -= yellow
     # Если это неудачное преобразование сочетает синий и зеленый, то разрежьте каждый пополам, чтобы сохранить максимальный диапазон значения.
-    if blue+green !=0 :
+    if blue + green != 0:
         blue /= 2
         green /= 2
     # Перераспределите оставшийся зеленый цвет.
@@ -25,7 +25,7 @@ def rgb2ryb(x):
     blue += green
     # Нормализовать до значений.
     my = max(red, yellow, blue)
-    if my !=0 :
+    if my != 0:
         n = mg / my
         red *= n
         yellow *= n
@@ -36,6 +36,7 @@ def rgb2ryb(x):
     blue += white
     # И верните RYB, набранный соответствующим образом.
     return int(red), int(yellow), int(blue)
+
 
 # Преобразуйте красно-желто-синюю систему в красно-зелено-синюю систему.
 def ryb2rgb(x):
@@ -53,7 +54,7 @@ def ryb2rgb(x):
     yellow -= green
     blue -= green
 
-    if blue+green !=0 :
+    if blue + green != 0:
         blue *= 2
         green *= 2
 
@@ -61,7 +62,7 @@ def ryb2rgb(x):
     green += yellow
 
     mg = max(red, green, blue)
-    if mg !=0 :
+    if mg != 0:
         n = my / mg
         red *= n
         green *= n

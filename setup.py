@@ -10,7 +10,7 @@ setup(
         "Pillow>=8.3.0",
     ],
     author="Churilo Maxim",
-    author_email="cdccdd@example.com",
+    author_email="churilomy@gmail.com",
     description="A program for generating color combinations",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -26,4 +26,4 @@ setup(
             "findercolors=main.main:main",
         ],
     },
-) 
+)

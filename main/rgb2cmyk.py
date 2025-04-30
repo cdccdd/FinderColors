@@ -20,7 +20,12 @@ def rgb2cmyk(r, g, b):
     k = min_cmy
 
     # rescale to the range [0,CMYK_SCALE]
-    return int(c * CMYK_SCALE), int(m * CMYK_SCALE), int(y * CMYK_SCALE), int(k * CMYK_SCALE)
+    return (
+        int(c * CMYK_SCALE),
+        int(m * CMYK_SCALE),
+        int(y * CMYK_SCALE),
+        int(k * CMYK_SCALE),
+    )
 
 
 def cmyk2rgb(c, m, y, k):
@@ -30,6 +35,6 @@ def cmyk2rgb(c, m, y, k):
     return r, g, b
 
 
-if __name__ =='__main__':
-    print(cmyk_to_rgb(0, 35, 100, 0))
-    print(rgb_to_cmyk(255, 165.75, 0))
+if __name__ == "__main__":
+    print(cmyk2rgb(0, 35, 100, 0))
+    print(rgb2cmyk(255, 165.75, 0))

@@ -10,10 +10,7 @@ class ScrollableFrame(ttk.Frame):
         self.scrollable_frame = ttk.Frame(canvas)
 
         self.scrollable_frame.bind(
-            "<Configure>",
-            lambda e: canvas.configure(
-                scrollregion=canvas.bbox("all")
-            )
+            "<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
         )
 
         canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
@@ -24,7 +21,7 @@ class ScrollableFrame(ttk.Frame):
         scrollbar.pack(side="right", fill="y")
 
 
-'''
+"""
 root = tk.Tk()
 
 frame = ScrollableFrame(root)
@@ -34,4 +31,4 @@ for i in range(50):
 
 frame.pack()
 root.mainloop()
-'''
+"""

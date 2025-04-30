@@ -714,6 +714,7 @@ def ClassThiada():
         ryb_color = rgb2ryb(rgb_color)
         rgb_comp1, rgb_comp2 = clas_thiad_rgb(rgb_color[0], rgb_color[1], rgb_color[2])
         ryb_comp1, ryb_comp2 = clas_thiad_ryb(ryb_color[0], ryb_color[1], ryb_color[2])
+        print(color, rgb_comp1, ryb_comp1, rgb_comp2, ryb_comp2)
         ReturningColorRGB(color, rgb_comp1, ryb_comp1, rgb_comp2, ryb_comp2)
 
 

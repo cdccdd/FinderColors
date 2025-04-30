@@ -1,5 +1,6 @@
 from rgb2hls import rgb2hls, hls2rgb
 from rgb2ryb import rgb2ryb, ryb2rgb
+import colorsys
 
 
 def clas_thiad_rgb(r, g, b):
@@ -13,16 +14,32 @@ def clas_thiad_rgb(r, g, b):
 
 
 def clas_thiad_ryb(r, g, b):
-    col = (r, g, b)
-    transfer_to_ryb = rgb2ryb(col)
-    r = transfer_to_ryb[0]
-    y = transfer_to_ryb[1]
-    b = transfer_to_ryb[2]
-    new_col1 = [b, r, y]
-    new_col2 = [y, b, r]
-    return new_col1, new_col2
+    # Переводим в RYB
+    ryb = rgb2ryb((r, g, b))
+    r, y, b = ryb
+
+    # Нормализуем к диапазону [0, 1]
+    r, y, b = [x / 255.0 for x in (r, y, b)]
+
+    # Переводим RYB в HSV через условный круг
+    h = (colorsys.rgb_to_hsv(r, y, b)[0] * 360)
+    h1 = (h + 120) % 360
+    h2 = (h - 120) % 360
+
+    # Цвета на триаде в RYB
+    ryb1 = colorsys.hsv_to_rgb(h1 / 360, 1, 1)
+    ryb2 = colorsys.hsv_to_rgb(h2 / 360, 1, 1)
+
+    # Возврат к 0–255 и RYB → RGB
+    ryb1 = tuple(int(x * 255) for x in ryb1)
+    ryb2 = tuple(int(x * 255) for x in ryb2)
+
+    rgb1 = ryb2rgb(ryb1)
+    rgb2 = ryb2rgb(ryb2)
+
+    return rgb1, rgb2
 
 
 if __name__ == "__main__":
     print(clas_thiad_rgb(255, 255, 0))
-    print(clas_thiad_ryb(44, 227, 3))
+    print(clas_thiad_ryb(255, 255, 0))

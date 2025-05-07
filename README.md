@@ -47,6 +47,7 @@ pip install -e .
 2. Enter CMYK for ALL methods.
 3. Beautiful design😍✨
 4. intermediate colors.
+5. Functions Sque and Rectangle don't work correct.
 
 ## License
 
